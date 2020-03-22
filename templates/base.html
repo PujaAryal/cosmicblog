@@ -1,0 +1,30 @@
+{% load static %}
+<html>
+<head>
+<style>
+
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="/">Home</a></li>
+  <li><a href="#news">Blog</a></li>
+  {% if request.user.is_authenticated %}
+  <li><a href="{% url 'myapp:login' %}"></a></li>
+  <li><a href="{% url 'myapp:logout' %}">logout</a></li>
+  {% else %}
+  <li><a  href="{% url 'myapp:login' %}">login</a></li>
+  <li><a href="{% url 'myapp:registration' %}">registration</a>
+  </li>
+  {% endif %}
+
+
+
+
+
+{% block content %}
+
+{% endblock %}
+</body>
+</html>
