@@ -49,29 +49,32 @@ class Visitor(Timestamp):
         super().save(*args, **kwargs)
 
 class Article(Timestamp):
-	title=models.CharField(max_length=200)
-	slug=models.SlugField(unique=True)
-	content=models.TextField()
-	date=models.DateTimeField(auto_now_add=True)
-	author=models.ForeignKey(Visitor,on_delete=models.CASCADE)
-	views=models.PositiveIntegerField(default=0)
+    title=models.CharField(max_length=200)
+    slug=models.SlugField(unique=True)
+    image=models.ImageField(upload_to='blog',null=True, blank=True)
+    content=models.TextField()
 
-	def __str__(self):
-		return self.title
-	"""docstring for """
+    date=models.DateTimeField(auto_now_add=True)
+    author=models.ForeignKey(Visitor,on_delete=models.CASCADE)
+    views=models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+    	return self.title
+"""docstring for """
 
 class Comment(Timestamp):
-    article=models.ForeignKey(Article,on_delete=models.CASCADE)
+    article=models.ForeignKey(Article,on_delete=models.CASCADE,null=True,blank=True)
     commenter=models.ForeignKey(Visitor,on_delete=models.CASCADE)
     text=models.TextField()
-    reply=models.ForeignKey('ReplyComment',on_delete=models.CASCADE)
+    reply=models.ForeignKey('ReplyComment',on_delete=models.CASCADE,null=True,blank=True)
     date=models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return " comment for "+ self.text + " by " + self.commenter.username
+        return " comment for "+ self.text + " by " + self.commenter.user.username
 
 class ReplyComment(Timestamp):
     text=models.TextField()
+    
 
     def __str__(self):
                 return self.text      

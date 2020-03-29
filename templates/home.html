@@ -3,6 +3,26 @@
 {% load static %}
 
 {% block content %}
-Welcome to blog field
+<a  href="{% url 'myapp:create' %}">Create</a>
+
+<div class="row">
+{% for lists in list %}
+	<div class="col-md-4 mt-3 mb-3">
+		<div class="card" style="width: 350px;">
+			{% if lists.image %}
+			<img class="card-img-top" src="{{lists.image.url}}" alt="img-fluid img-thumbnail" style="height: 250px;object-fit: cover; width: 350px;">
+			{% else %}
+			<p>No image found!</p>
+
+			{% endif %}
+			<div class="card-body">
+				<h5 class="card-title"><a style="text-decoration: none !important" href="{% url 'myapp:detail' lists.pk %}">{{lists.title}}</a></h5>
+				<h5 class="card-title"><a style="text-decoration: none !important" href="">{{lists.author}}</a></h5>
+			</div>
+		</div>
+	</div>
+     
+
+{% endfor %}
 
 {% endblock %}

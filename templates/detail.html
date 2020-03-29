@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<h1>Title: {{ article.title }}</h1>
+{% if article.image %}
+ <img src="{{ article.image.url }}" class="img-responsive" alt="img">
+{% endif %}
+<p>Detail: {{ article.content }}</p>
+<p>Author: {{ article.author }}</p>
+
+<h3>Comment Form</h3>
+
+	{% if request.user.is_authenticated %}
+		<form method="POST" action="{% url 'myapp:comment' article.pk %}">
+			{% csrf_token %}
+			{{comments.as_p}}
+			<button class="btn btn-primary">Submit data</button>
+		</form>
+	{% endif %}
+	<h4>All Comments</h4>
+
+		{% for comment in commentss %}
+		 <li>{{comment.text}}</li>
+		 <p style="color: #582703;">by {{comment.commenter}} {{comment.date|timesince}} ago</p> 
+		 <form method="POST" enctype="multipart/form-data">
+		 {% csrf_token %}
+		  <a href="{% url 'myapp:comment_delete' comment.id %}">Delete</a>
+		 </form> 
+		{% endfor %}
+{% endblock %}
